@@ -1,6 +1,9 @@
-let timer;
+import { ActionTree } from 'vuex';
+import { AuthState } from '.';
 
-export default {
+let timer: number;
+
+const actions: ActionTree<AuthState, any> = {
   async login(context, payload) {
     return context.dispatch('auth', {
       ...payload,
@@ -46,7 +49,7 @@ export default {
 
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userInfo.id);
-    localStorage.setItem('tokenExpiration', expirationDate);
+    localStorage.setItem('tokenExpiration', expirationDate.toString());
 
     timer = setTimeout(function() {
       context.dispatch('autoLogout');
@@ -62,7 +65,7 @@ export default {
     const userId = localStorage.getItem('userId');
     const tokenExpiration = localStorage.getItem('tokenExpiration');
 
-    const expiresIn = +tokenExpiration - new Date().getTime();
+    const expiresIn = +tokenExpiration! - new Date().getTime();
 
     if (expiresIn < 0) {
       return;
@@ -97,3 +100,4 @@ export default {
   }
 };
 
+export default actions

@@ -1,4 +1,7 @@
-export default {
+import { GetterTree } from 'vuex';
+import { AuthState } from '.';
+
+const getters: GetterTree<AuthState, any> = {
   userId(state) {
     return state.userId;
   },
@@ -12,3 +15,5 @@ export default {
     return state.didAutoLogout;
   }
 };
+
+export default getters

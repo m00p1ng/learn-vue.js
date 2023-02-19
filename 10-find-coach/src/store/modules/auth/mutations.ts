@@ -1,4 +1,7 @@
-export default {
+import { MutationTree } from 'vuex';
+import { AuthState } from '.';
+
+const mutations: MutationTree<AuthState> = {
   setUser(state, payload) {
     state.token = payload.token;
     state.userId = payload.userId;
@@ -8,3 +11,5 @@ export default {
     state.didAutoLogout = true;
   }
 };
+
+export default mutations;

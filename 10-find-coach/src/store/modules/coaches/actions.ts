@@ -1,4 +1,7 @@
-export default {
+import { ActionTree } from 'vuex';
+import { CoachState } from '.';
+
+const actions: ActionTree<CoachState, any> = {
   async registerCoach(context, data) {
     const userId = context.rootGetters.userId;
     const coachData = {
@@ -65,3 +68,5 @@ export default {
     context.commit('setFetchTimestamp');
   }
 };
+
+export default actions

@@ -1,8 +1,24 @@
+import { Module } from 'vuex';
+
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
 
-export default {
+export interface Coach {
+  id: string | number
+  firstName: string
+  lastName: string
+  areas: string[]
+  description: string
+  hourlyRate: number
+}
+
+export interface CoachState {
+  lastFetch?: number | null
+  coaches: Coach[]
+};
+
+const modules: Module<CoachState, any> = {
   namespaced: true,
   state() {
     return {
@@ -33,3 +49,5 @@ export default {
   actions,
   getters,
 }
+
+export default modules;

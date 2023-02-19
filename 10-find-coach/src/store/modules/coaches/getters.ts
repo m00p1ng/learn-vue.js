@@ -1,4 +1,7 @@
-export default {
+import { GetterTree } from 'vuex';
+import { Coach, CoachState } from '.';
+
+const getters: GetterTree<CoachState, any> = {
   coaches(state) {
     return state.coaches;
   },
@@ -8,7 +11,7 @@ export default {
   isCoach(_state, getters, _rootState, rootGetters) {
     const coaches = getters.coaches;
     const userId = rootGetters.userId;
-    return coaches.some(coach => coach.id === userId);
+    return coaches.some((coach: Coach) => coach.id === userId);
   },
   shouldUpdate(state) {
     const lastFetch = state.lastFetch;
@@ -19,3 +22,5 @@ export default {
     return (currentTimeStamp - lastFetch) / 1000 > 60;
   }
 }
+
+export default getters;

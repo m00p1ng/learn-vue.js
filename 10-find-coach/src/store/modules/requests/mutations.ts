@@ -1,4 +1,7 @@
-export default {
+import { MutationTree } from 'vuex';
+import { RequestsState } from '.';
+
+const mutations: MutationTree<RequestsState> = {
   addRequest(state, payload) {
     state.requests.push(payload);
   },
@@ -6,3 +9,5 @@ export default {
     state.requests = payload;
   }
 };
+
+export default mutations

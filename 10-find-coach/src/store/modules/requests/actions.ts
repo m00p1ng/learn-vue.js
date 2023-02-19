@@ -1,6 +1,9 @@
-export default {
+import { ActionTree } from 'vuex';
+import { RequestsState, Request } from '.';
+
+const actions: ActionTree<RequestsState, any> = {
   async contactCoach(context, payload) {
-    const newRequest = {
+    const newRequest: Partial<Request> = {
       userEmail: payload.email,
       message: payload.message
     };
@@ -34,7 +37,7 @@ export default {
       throw error;
     }
 
-    const requests = [];
+    const requests: Request[] = [];
     const filteredData = responseData[coachId]
 
     if(!filteredData) {
@@ -46,7 +49,7 @@ export default {
         id: item.id,
         coachId: coachId,
         userEmail: item.userEmail,
-        message: item.message
+        message: item.message,
       };
       requests.push(request);
     }
@@ -54,3 +57,5 @@ export default {
     context.commit('setRequests', requests);
   }
 };
+
+export default actions;
