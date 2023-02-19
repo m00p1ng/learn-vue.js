@@ -1,0 +1,24 @@
+{
+  "coaches": [
+    {
+      "id": "c3",
+      "firstName": "mooping",
+      "lastName": "mooping",
+      "description": "mooping",
+      "hourlyRate": 123,
+      "areas": [
+        "frontend",
+        "backend"
+      ]
+    }
+  ],
+  "requests": {
+    "c3": [
+      {
+        "userEmail": "test@test.com",
+        "message": "test",
+        "id": 1
+      }
+    ]
+  }
+}

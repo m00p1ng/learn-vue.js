@@ -2,6 +2,7 @@ export default {
   async registerCoach(context, data) {
     const userId = context.rootGetters.userId;
     const coachData = {
+      id: userId,
       firstName: data.first,
       lastName: data.last,
       description: data.desc,
@@ -9,10 +10,18 @@ export default {
       areas: data.areas
     };
 
+    console.log({
+        method: 'POST',
+        body: JSON.stringify(coachData)
+      })
+
     const response = await fetch(
-      `https://vue-http-demo-85e9e.firebaseio.com/coaches/${userId}.json`,
+      `http://localhost:3000/coaches`,
       {
-        method: 'PUT',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(coachData)
       }
     );
@@ -34,7 +43,7 @@ export default {
     }
 
     const response = await fetch(
-      `https://vue-http-demo-85e9e.firebaseio.com/coaches.json`
+      `http://localhost:3000/coaches`
     );
     const responseData = await response.json();
 
@@ -45,14 +54,14 @@ export default {
 
     const coaches = [];
 
-    for (const key in responseData) {
+    for (const item of responseData) {
       const coach = {
-        id: key,
-        firstName: responseData[key].firstName,
-        lastName: responseData[key].lastName,
-        description: responseData[key].description,
-        hourlyRate: responseData[key].hourlyRate,
-        areas: responseData[key].areas
+        id: item.id,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        description: item.description,
+        hourlyRate: item.hourlyRate,
+        areas: item.areas
       };
       coaches.push(coach);
     }

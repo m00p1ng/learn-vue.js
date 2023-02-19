@@ -4,8 +4,11 @@ export default {
       userEmail: payload.email,
       message: payload.message
     };
-    const response = await fetch(`https://vue-http-demo-85e9e.firebaseio.com/requests/${payload.coachId}.json`, {
+    const response = await fetch(`http://localhost:3000/requests`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(newRequest)
     });
 
@@ -23,7 +26,7 @@ export default {
   },
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
-    const response = await fetch(`https://vue-http-demo-85e9e.firebaseio.com/requests/${coachId}.json`);
+    const response = await fetch(`http://localhost:3000/requests`);
     const responseData = await response.json();
 
     if (!response.ok) {
@@ -32,16 +35,19 @@ export default {
     }
 
     const requests = [];
+    const filteredData = responseData[coachId]
 
-    for (const key in responseData) {
+    for (const item of filteredData) {
       const request = {
-        id: key,
+        id: item.id,
         coachId: coachId,
-        userEmail: responseData[key].userEmail,
-        message: responseData[key].message
+        userEmail: item.userEmail,
+        message: item.message
       };
       requests.push(request);
     }
+
+    console.log({requests})
 
     context.commit('setRequests', requests);
   }
