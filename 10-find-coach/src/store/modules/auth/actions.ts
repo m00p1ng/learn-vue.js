@@ -14,38 +14,38 @@ export default {
     });
   },
   async auth(context, payload) {
+    let response;
     const mode = payload.mode;
-    let url =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBvOcmh_Avvu08bFdUHdmJzA06c6vV4h0E';
 
-    if (mode === 'signup') {
-      url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBvOcmh_Avvu08bFdUHdmJzA06c6vV4h0E';
+    if (mode === 'login') {
+      response = await fetch(`http://localhost:3000/users?email=${payload.email}`, {
+        method: 'GET',
+      });
+    } else {
+      response = await fetch(`http://localhost:3000/users`, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: payload.email,
+        })
+      });
     }
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: payload.email,
-        password: payload.password,
-        returnSecureToken: true
-      })
-    });
 
     const responseData = await response.json();
 
-    if (!response.ok) {
+    if (!response.ok || responseData.length === 0) {
       const error = new Error(
         responseData.message || 'Failed to authenticate. Check your login data.'
       );
       throw error;
     }
 
-    const expiresIn = +responseData.expiresIn * 1000;
-    // const expiresIn = 5000;
+    const expiresIn = 5 * 60 * 1000;
     const expirationDate = new Date().getTime() + expiresIn;
+    const token = new Date().toISOString()
+    const userInfo = responseData[0];
 
-    localStorage.setItem('token', responseData.idToken);
-    localStorage.setItem('userId', responseData.localId);
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userInfo.id);
     localStorage.setItem('tokenExpiration', expirationDate);
 
     timer = setTimeout(function() {
@@ -53,8 +53,8 @@ export default {
     }, expiresIn);
 
     context.commit('setUser', {
-      token: responseData.idToken,
-      userId: responseData.localId
+      token,
+      userId: userInfo.id
     });
   },
   tryLogin(context) {

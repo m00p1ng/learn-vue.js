@@ -10,15 +10,27 @@
         "frontend",
         "backend"
       ]
+    },
+    {
+      "id": "c5",
+      "firstName": "test",
+      "lastName": "test",
+      "description": "test",
+      "hourlyRate": 10000,
+      "areas": [
+        "frontend",
+        "backend"
+      ]
     }
   ],
   "requests": {
-    "c3": [
-      {
-        "userEmail": "test@test.com",
-        "message": "test",
-        "id": 1
-      }
-    ]
-  }
+    "userEmail": "eee@test.ocom",
+    "message": "asdfadsf"
+  },
+  "users": [
+    {
+      "id": "c3",
+      "email": "mooping@test.com"
+    }
+  ]
 }

@@ -37,6 +37,10 @@ export default {
     const requests = [];
     const filteredData = responseData[coachId]
 
+    if(!filteredData) {
+      return requests;
+    }
+
     for (const item of filteredData) {
       const request = {
         id: item.id,
