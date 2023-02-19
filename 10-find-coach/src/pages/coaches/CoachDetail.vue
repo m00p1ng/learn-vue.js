@@ -11,6 +11,7 @@
         <h2>Interested? Reach out now!</h2>
         <base-button link :to="contactLink">Contact</base-button>
       </header>
+      <router-view></router-view>
     </base-card>
   </section>
   <section>
@@ -31,7 +32,7 @@ export default {
   },
   computed: {
     fullName() {
-      return `${this.selectedCoach.firstName} ${this.selectedCoach.lastName}`
+      return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName;
     },
     areas() {
       return this.selectedCoach.areas;
