@@ -10,11 +10,6 @@ export default {
       areas: data.areas
     };
 
-    console.log({
-        method: 'POST',
-        body: JSON.stringify(coachData)
-      })
-
     const response = await fetch(
       `http://localhost:3000/coaches`,
       {
