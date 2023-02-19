@@ -6,13 +6,18 @@
     <base-card>
       <div class="controls">
         <base-button mode="outline">Refresh</base-button>
-        <base-button link to="/register">Register as Coach</base-button>
+        <base-button v-if="!isCoach" link to="/register">Register as Coach</base-button>
       </div>
       <ul v-if="hasCoaches">
-        <li v-for="coach in filteredCoaches" :key="coach.id">
-          <coach-item v-for="coach in filteredCoaches" :key="coach.id" :id="coach.id" :first-name="coach.firstName"
-            :last-name="coach.lastName" :rate="coach.hourlyRate" :areas="coach.areas"></coach-item>
-        </li>
+        <coach-item
+          v-for="coach in filteredCoaches"
+          :key="coach.id"
+          :id="coach.id"
+          :first-name="coach.firstName"
+          :last-name="coach.lastName"
+          :rate="coach.hourlyRate"
+          :areas="coach.areas"
+        ></coach-item>
       </ul>
       <h3 v-else>No coaches found.</h3>
     </base-card>
@@ -20,8 +25,8 @@
 </template>
 
 <script lang="ts">
-import CoachItem from '../../components/coaches/CoachItem.vue'
-import CoachFilter from '../../components/coaches/CoachFilter.vue'
+import CoachItem from '../../components/coaches/CoachItem.vue';
+import CoachFilter from '../../components/coaches/CoachFilter.vue';
 
 export default {
   components: {
@@ -38,6 +43,9 @@ export default {
     };
   },
   computed: {
+    isCoach() {
+      return this.$store.getters['coaches/isCoach'];
+    },
     filteredCoaches() {
       const coaches = this.$store.getters['coaches/coaches'];
       return coaches.filter((coach) => {
@@ -54,15 +62,15 @@ export default {
       });
     },
     hasCoaches() {
-      return this.$store.getters['coaches/coaches'].length > 0
+      return this.$store.getters['coaches/hasCoaches'];
     },
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
