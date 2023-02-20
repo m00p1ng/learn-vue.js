@@ -1,30 +1,47 @@
 <template>
   <section class="container">
-    <h2>{{ user.name }}</h2>
-    <h3>{{ user.age }}</h3>
+    <h2>{{ username }}</h2>
+    <h3>{{ age }}</h3>
     <button @click="setAge">Change Age</button>
+    <div>
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName"/>
+    </div>
   </section>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export default {
   setup() {
-    const user = ref({
-      name: 'Mooping',
-      age: 13,
+    // const user = ref({
+    //   name: 'Mooping',
+    //   age: 13,
+    // })
+    const age = ref(13)
+
+    watch(age, function(newValue, oldValue) {
+      console.log('Old age: ' + oldValue)
+      console.log('New age: ' + newValue)
     })
 
+    const username = computed(function () {
+      return firstName.value + ' ' + lastName.value
+    })
+
+    const firstName = ref('')
+    const lastName = ref('')
+
     function setNewAge() {
-      user.value = {
-        ...user.value,
-        age: 10,
-      }
+      age.value++
     }
 
     return {
-      user,
+      username,
+      firstName,
+      lastName,
+      age,
       setAge: setNewAge,
     };
   },
